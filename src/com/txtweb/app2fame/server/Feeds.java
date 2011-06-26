@@ -30,6 +30,8 @@ public class Feeds extends HttpServlet {
 	private static final Logger LOGGER = Logger.getLogger(Feeds.class.getName());
 	private static String pageHtml = "<html><head><meta name=\"txtweb-appkey\" content=\"0e5e27f3-9cc5-4c60-a420-febe0ff4149f\" /><title> Page title </title></head><body>%s</body></html>";
 	
+	
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
 	throws ServletException, IOException {

@@ -5,27 +5,25 @@ package com.txtweb.app2fame.server;
  *  @author Mayank Kandpal
  */
 
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 
 public class Feed {
 
-	private int key;	
+	private long key;
+	
 
 	private String feedName; //key
 	
 	private String feedUrl; //key
 	
+	
 	private int subscribedUserCount; //key
+	
 	
 	private String[] feedBuffer = new String[5]; // content of feeds, blank if not set; 5 feed titles at max
 		
 	// Constructor
-	public Feed(int key, String feedname, String feedurl){
+	public Feed(long key, String feedname, String feedurl){
 		this.key = key;
 		this.feedName = feedname;
 		this.feedUrl = feedurl;
@@ -35,11 +33,11 @@ public class Feed {
 		}
 	}
 	
-	public int getKey() {
+	public long getKey() {
 		return key;
 		}
 		
-	public void setKey(int key) {
+	public void setKey(long key) {
 		this.key = key;
 		}
 

@@ -1,5 +1,8 @@
 package com.txtweb.app2fame.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /** Class Constants
  *  @version 1.0
  *  @author Mayank Kandpal
@@ -27,6 +30,19 @@ public class Constants {
     
     public static final String COMING_SOON = "This feature will be available soon.<br>";
     
-    public enum FeedsKeyWords {GEEKSFORGEEKS, TECHCRUNCH, SMASHINGMAGAZINE, ARSETECHNICA};
+    public static Map<String, String> urlMap = new HashMap<String, String>();
+    
+    public static void createUrlMap()
+    {
+    	urlMap.put("Google News India", "http://news.google.com/news?cf=all&ned=in&hl=en&output=rss");
+    	urlMap.put("Mashable", "http://feeds.mashable.com/Mashable?format=xml");
+    	urlMap.put("ars technica", "http://feeds.arstechnica.com/arstechnica/index?format=xml");
+    	urlMap.put("SMASHING NETWORK", "http://rss1.smashingmagazine.com/feed/?f=smashing-network");
+    	urlMap.put("Tech Crunch", "http://feeds.feedburner.com/TechCrunch");
+    	urlMap.put("Times Of India", "http://dynamic.feedsportal.com/pf/555218/http://toi.timesofindia.indiatimes.com/rssfeedstopstories.cms");
+    	urlMap.put("CRICINFO", "http://www.espncricinfo.com/rss/content/story/feeds/0.xml");
+    	urlMap.put("ESPNSTAR", "http://www.espnstar.com/headlines-rss/");
+    	urlMap.put("CNN", "http://rss.cnn.com/rss/cnn_topstories.rss");
+    }
     
 }
