@@ -39,6 +39,7 @@ public class Feeds extends HttpServlet {
 		String txtWebMsg = (req.getParameter(Constants.TEXT_WEB_MSG) != null ? req
 				.getParameter(Constants.TEXT_WEB_MSG).replace(" ","").toLowerCase() : "");
 		
+		
 		String hashKey = (req.getParameter(Constants.TEXT_WEB_MOB) != null ? req
 				.getParameter(Constants.TEXT_WEB_MOB) : "");
 		
@@ -108,7 +109,7 @@ public class Feeds extends HttpServlet {
 				
 				for (String feed : userFav) {
 					//XXX
-					String feedname ="";
+					String feedname ="feedname";
 					//feedname = ?? 
 				    output = output + " " + feed + " : " + feedname + "<br>";
 				}
@@ -143,8 +144,12 @@ public class Feeds extends HttpServlet {
 					out.println(String.format(pageHtml, "You have been unsubscribed from all feeds."));
 				}else{
 					String feedid = txtWebMsg.substring(5);
-					UserDatabase.resetUserFav(user.getUserHashKey(), feedid);
-					out.println(String.format(pageHtml, "You have been unsubscribed from the feed " + feedid));
+					boolean exists = UserDatabase.resetUserFav(user.getUserHashKey(), feedid);
+					if(exists){
+						out.println(String.format(pageHtml, "You have been unsubscribed from the feed " + feedid));
+					}else{ 
+						out.println(String.format(pageHtml, feedid +" does not exist in your subscriptions."));
+					}
 				}
 		
 			}// end unsub handler

@@ -1,5 +1,6 @@
 package com.txtweb.app2fame.server;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +107,7 @@ public class UserDatabase {
 		return true;
 	}
 
-	public static void resetUserFav(String hashKey, String feedid){
+	public static boolean resetUserFav(String hashKey, String feedid) throws UnsupportedEncodingException{
 		
 		PersistenceManager pm = RAM.get().getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -115,13 +116,18 @@ public class UserDatabase {
 		String query = "select from " + UserProfile.class.getName() + " where userHashKey=='"+hashKey+"'";
 		List<UserProfile> list = (List<UserProfile>) pm.newQuery(query).execute();
 		
+		boolean exists = false;
+		
 	    try{
 	    	UserProfile profile = list.get(0);
 			String[] favArr = list.get(0).getUserFav();
 	    	
 			for(int count = 0; count < favArr.length; count++){
-				if(favArr[count] == feedid)
+//				favArr[count] = favArr[count].getBytes("utf-8").toString();
+				if( favArr[count].equals(feedid) ){
 					favArr[count] = "blank";
+					exists = true;
+				}
 			}
 	
 	    	list.get(0).setUserFav(favArr);
@@ -136,6 +142,8 @@ public class UserDatabase {
 		}finally {
 	        pm.close();
 		}
+		
+		return exists;
 	}
 
 	public static List showUserFav(String hashKey){
@@ -152,8 +160,9 @@ public class UserDatabase {
 			List<String> userFav = new ArrayList<String>();
 
 			for(int count = 0; count < favArr.length; count++){
-				if(favArr[count] != "blank")
+				if(!(favArr[count].equals("blank"))){
 					userFav.add(favArr[count]);
+				}
 			}
 	        pm.close();
 			

@@ -14,8 +14,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 public class Feed {
 
-	private int key;
-	
+	private int key;	
 
 	private String feedName; //key
 	
