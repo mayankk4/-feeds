@@ -1,8 +1,14 @@
 package com.txtweb.app2fame.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +24,7 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
+import com.txtweb.app2fame.shared.UserProfile;
 import com.txtweb.app2fame.utils.Constants;
 
 public class CheckPush extends HttpServlet {
@@ -38,7 +45,7 @@ public class CheckPush extends HttpServlet {
 		}
 	}
 
-	public int updateFeedBuffer(Feed feed, String[] buffer, int size)
+	public int updateFeedBuffer(Feed feed, String[] buffer, int size) throws IOException
 	{
 		
 		String latestFeed = feed.getFeedBuffer()[0];
@@ -80,7 +87,6 @@ public class CheckPush extends HttpServlet {
 			SyndEntry entry = null;
 
 			try {
-
 				reader = new XmlReader(url);
 				sf = new SyndFeedInput().build(reader);
 				//System.out.println("Feed Title: "+ feed.getFeedName());
@@ -110,13 +116,51 @@ public class CheckPush extends HttpServlet {
 			throws IOException {
 
 		PrintWriter out = resp.getWriter();
+		
+		try {
+			getNewFeeds();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FeedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
-	public void pushFeed(long feedId, int numberUpdates)
+	public void pushFeed(long feedId, int numberUpdates) throws IOException
 	{
 		
+		String publisherKey =  "3C3329D3-D7AF-443D-8FE9-4027E12F8E25";
+		String appkey = "0e5e27f3-9cc5-4c60-a420-febe0ff4149f";		
+		
+		String message = "";
+		// message = top 2 feeds
+		
+		// iterate through all the users
+		// if user has feedid in his fav array then ..
+		
+		UserProfile user = null; // remove this
+		String encryptedMobile = user.getUserHashKey();
+		
+		String urlStr =	"http://developer.txtweb.com/txtwebpush?txtweb-mobile="
+			+URLEncoder.encode(encryptedMobile,"utf-8")+
+			"&txtweb-message="
+			+URLEncoder.encode(message,"utf-8")
+			+"&txtweb-appkey="
+			+URLEncoder.encode(appkey,"utf-8")
+			+"&txtweb-pubkey="
+			+URLEncoder.encode(publisherKey,"utf-8");
+		
+		URL url = new URL(urlStr);
+		URLConnection conn = url.openConnection();
+		
+		// Get the response
+		BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
 	}
+
 	public static void main(String[] args) throws ServletException, IllegalArgumentException, IOException, FeedException
 	{
 		System.out.println("hello");
