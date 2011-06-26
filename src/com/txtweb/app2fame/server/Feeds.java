@@ -13,6 +13,8 @@ package com.txtweb.app2fame.server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -86,18 +88,37 @@ public class Feeds extends HttpServlet {
 	private static void keywordHandler(String txtWebMsg, UserProfile user, PrintWriter out) throws IOException{
 				
 // Keep removing keywords from here as the handlers are implemented.
-		if( txtWebMsg.startsWith("list") || 
-			txtWebMsg.startsWith("mysub") ||  
-			txtWebMsg.startsWith("sub") ||
-			txtWebMsg.startsWith("unsub")
-		  ){
-			out.println(String.format(pageHtml,"This service is Temporarily unavailable.<br>"));
-		}else {	
+	
 			if(txtWebMsg.startsWith("list")){
+				// show the list of all the available subscriptions
+				String output = "Available subsctiptions are :<br>";
 				
+				
+				out.println(String.format(pageHtml, output + "SMS @feeds LIST to view list of all feeds."));
+		
 			} // end options handler
 			
 			if(txtWebMsg.startsWith("mysub")){
+				
+				List<String> userFav = new ArrayList<String>();
+		    	
+		    	userFav = UserDatabase.showUserFav(user.getUserHashKey());
+				
+				String output ="";
+				
+				for (String feed : userFav) {
+					//XXX
+					String feedname ="";
+					//feedname = ?? 
+				    output = output + " " + feed + " : " + feedname + "<br>";
+				}
+
+			
+				if(output == ""){
+					out.println(String.format(pageHtml,"You have not subscribed to any feed.<br>" + "SMS @feeds LIST to view list of all feeds."));
+				}else{
+					out.println(String.format(pageHtml,"Your subscriptions are:<br>" + output));
+				}
 
 			} // end mysub handler
 			
@@ -132,7 +153,6 @@ public class Feeds extends HttpServlet {
 				out.println(String.format(pageHtml, Constants.HELP_MESSAGE));
 			} // end help handler
 						
-		} // end else 
 	} // end function keyword handler
          
 	// This function checks whether the input contains a valid keyword

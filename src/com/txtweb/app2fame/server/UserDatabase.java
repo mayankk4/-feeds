@@ -1,5 +1,6 @@
 package com.txtweb.app2fame.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -137,6 +138,29 @@ public class UserDatabase {
 		}
 	}
 
+	public static List showUserFav(String hashKey){
+				
+		PersistenceManager pm = RAM.get().getPersistenceManager();
+		String query = "select from " + UserProfile.class.getName() + " where userHashKey=='"+hashKey+"'";
+		List<UserProfile> list = (List<UserProfile>) pm.newQuery(query).execute();
+		
+	    	UserProfile profile = list.get(0);
+			String[] favArr = list.get(0).getUserFav();
+			
+			//public static List<Match> scoreDetailCache = null;
+	    	
+			List<String> userFav = new ArrayList<String>();
+
+			for(int count = 0; count < favArr.length; count++){
+				if(favArr[count] != "blank")
+					userFav.add(favArr[count]);
+			}
+	        pm.close();
+			
+		return userFav;
+
+	}
+	
 	public static void resetAllUserFav(String hashKey){
 		
 		PersistenceManager pm = RAM.get().getPersistenceManager();

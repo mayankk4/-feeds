@@ -6,7 +6,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
-import com.txtweb.app2fame.shared.Feed;
+import com.txtweb.app2fame.server.Feed;
 import com.txtweb.app2fame.shared.UserProfile;
 
 /** Class UserDatabase
@@ -25,10 +25,10 @@ public class FeedDatabase {
 		
 		
 		PersistenceManager pm = RAM.get().getPersistenceManager();
-		Feed feed = new Feed(feedname, feedurl);
+//		Feed feed = new Feed(feedname, feedurl);
 
         try {
-            pm.makePersistent(feed);
+//            pm.makePersistent(feed);
         }catch (java.lang.NullPointerException ex) {
       //  	System.out.println("exception is +++++" + ex.getMessage());
 		}finally {

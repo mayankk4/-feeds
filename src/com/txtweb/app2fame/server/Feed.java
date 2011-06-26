@@ -21,14 +21,13 @@ public class Feed {
 	
 	private String feedUrl; //key
 	
-	@Persistent
 	private int subscribedUserCount; //key
 	
-	@Persistent
 	private String[] feedBuffer = new String[5]; // content of feeds, blank if not set; 5 feed titles at max
 		
 	// Constructor
-	public Feed(String feedname, String feedurl){
+	public Feed(int key, String feedname, String feedurl){
+		this.key = key;
 		this.feedName = feedname;
 		this.feedUrl = feedurl;
 		this.subscribedUserCount = 0;
@@ -41,8 +40,8 @@ public class Feed {
 		return key;
 		}
 		
-	public void setKey(int keyx) {
-		this.key = keyx;
+	public void setKey(int key) {
+		this.key = key;
 		}
 
 	public String getFeedName() {
