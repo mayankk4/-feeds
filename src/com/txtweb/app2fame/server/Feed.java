@@ -1,6 +1,6 @@
-package com.txtweb.app2fame.shared;
+package com.txtweb.app2fame.server;
 
-/** Class UserProfile
+/** Class Feed
  *  @version 1.0 
  *  @author Mayank Kandpal
  */
@@ -12,25 +12,13 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 
-@PersistenceCapable
 public class Feed {
 
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Long key;
+	private int key;
 	
-	public int getSubscribedUserCount() {
-		return subscribedUserCount;
-	}
 
-	public void setSubscribedUserCount(int subscribedUserCount) {
-		this.subscribedUserCount = subscribedUserCount;
-	}
-
-	@Persistent
 	private String feedName; //key
 	
-	@Persistent
 	private String feedUrl; //key
 	
 	@Persistent
@@ -49,10 +37,14 @@ public class Feed {
 		}
 	}
 	
-	public Long getKey() {
+	public int getKey() {
 		return key;
 		}
 		
+	public void setKey(int keyx) {
+		this.key = keyx;
+		}
+
 	public String getFeedName() {
 		return feedName;
 	}
@@ -77,9 +69,13 @@ public class Feed {
 		this.feedBuffer = feedBuffer;
 	}
 
-	public void setKey(Long keyx) {
-		this.key = keyx;
-		}
 	
+	public int getSubscribedUserCount() {
+		return subscribedUserCount;
+	}
+
+	public void setSubscribedUserCount(int subscribedUserCount) {
+		this.subscribedUserCount = subscribedUserCount;
+	}
 	
 }
