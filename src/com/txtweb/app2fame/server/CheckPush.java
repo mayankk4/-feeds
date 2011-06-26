@@ -40,7 +40,9 @@ public class CheckPush extends HttpServlet {
 
 	public int updateFeedBuffer(Feed feed, String[] buffer, int size)
 	{
+		
 		String latestFeed = feed.getFeedBuffer()[0];
+		//System.out.println("latestfeed:" + latestFeed + "buffer0" + buffer[0]);
 		int shiftIndex;
 		int index;
 		for(shiftIndex = 0; shiftIndex < size; shiftIndex++)
@@ -48,10 +50,14 @@ public class CheckPush extends HttpServlet {
 			if(buffer[shiftIndex].equalsIgnoreCase(latestFeed))
 				break;
 		}
+		
 		for(index = 0; index < size; index++)
 		{
 			feed.getFeedBuffer()[index] = buffer[index];
+			//System.out.println("inside update buffer, shiftindex:" + shiftIndex);
+			//System.out.println("bufferdata " + buffer[index]);
 		}
+		
 		if(shiftIndex > 0)
 		{
 			pushFeed(feed.getKey(), shiftIndex);
@@ -61,12 +67,13 @@ public class CheckPush extends HttpServlet {
 	
 	public void getNewFeeds() throws IOException, IllegalArgumentException,
 			FeedException {
-		int count = 0;
+		
 		long id = 1;
 		int hammingDist;
+		String[] feedBuffer = new String[5];
 		for(Feed feed : feedList)
 		{
-			String[] feedBuffer = new String[5];
+			int count = 0;
 			URL url = new URL(feed.getFeedUrl());
 			XmlReader reader = null;
 			SyndFeed sf = null;
@@ -76,16 +83,21 @@ public class CheckPush extends HttpServlet {
 
 				reader = new XmlReader(url);
 				sf = new SyndFeedInput().build(reader);
-				// System.out.println("Feed Title: "+ feed.getAuthor());
+				//System.out.println("Feed Title: "+ feed.getFeedName());
+				//System.out.println("Feed url: "+ feed.getFeedUrl());
 
 				for (Iterator i = sf.getEntries().iterator(); i.hasNext() && count < 5;) {
 					entry = (SyndEntry) i.next();
+					//System.out.println(count);
 					feedBuffer[count++] =  entry.getTitle();
-					//System.out.println(entry.getTitle());						
+					
+					//System.out.println("fetched: " + entry.getTitle());						
 				}
 				hammingDist = updateFeedBuffer(feed, feedBuffer, 5);
+				//System.out.println("hammingdist: " + hammingDist);
 			} finally {
-				if (reader != null)
+				if (reader != null);
+					//delete(feedBuffer);
 					reader.close();
 			}
 			
@@ -104,5 +116,14 @@ public class CheckPush extends HttpServlet {
 	public void pushFeed(long feedId, int numberUpdates)
 	{
 		
+	}
+	public static void main(String[] args) throws ServletException, IllegalArgumentException, IOException, FeedException
+	{
+		System.out.println("hello");
+		ServletConfig config = null;
+		CheckPush chk = new CheckPush();
+		chk.init(config);
+		chk.getNewFeeds();
+		System.out.println("bye");
 	}
 }
