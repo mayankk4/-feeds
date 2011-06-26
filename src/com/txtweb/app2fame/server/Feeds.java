@@ -86,15 +86,15 @@ public class Feeds extends HttpServlet {
 	private static void keywordHandler(String txtWebMsg, UserProfile user, PrintWriter out) throws IOException{
 				
 // Keep removing keywords from here as the handlers are implemented.
-		if( txtWebMsg.startsWith("options") || 
+		if( txtWebMsg.startsWith("list") || 
 			txtWebMsg.startsWith("mysub") ||  
 			txtWebMsg.startsWith("sub") ||
 			txtWebMsg.startsWith("unsub")
 		  ){
 			out.println(String.format(pageHtml,"This service is Temporarily unavailable.<br>"));
 		}else {	
-			if(txtWebMsg.startsWith("options")){
-
+			if(txtWebMsg.startsWith("list")){
+				
 			} // end options handler
 			
 			if(txtWebMsg.startsWith("mysub")){
@@ -102,10 +102,29 @@ public class Feeds extends HttpServlet {
 			} // end mysub handler
 			
 			if(txtWebMsg.startsWith("sub")){
+				
+				String matchId = txtWebMsg.substring(3);
+				Boolean isValid = false;
+				   
+				isValid = UserDatabase.setUserFav(user.getUserHashKey(), matchId);
+											
+				if(isValid){					
+					out.println(String.format(pageHtml,"You have been subscribed to the feed.<br>" + "SMS @feeds LIST to view list of all feeds."));
+				} else {
+					out.println(String.format(pageHtml,"Incorrect Feeds ID.<br>"+ "SMS @feeds LIST to view list of all feeds." + "SMS @feeds HELP to view help content."));
+				}
 
 			} // end sub handler
 			
-			if(txtWebMsg.startsWith("unsub")){				
+			if(txtWebMsg.startsWith("unsub")){
+				if(txtWebMsg.startsWith("unsuball")){
+					UserDatabase.resetAllUserFav(user.getUserHashKey());
+					out.println(String.format(pageHtml, "You have been unsubscribed from all feeds."));
+				}else{
+					String feedid = txtWebMsg.substring(5);
+					UserDatabase.resetUserFav(user.getUserHashKey(), feedid);
+					out.println(String.format(pageHtml, "You have been unsubscribed from the feed " + feedid));
+				}
 		
 			}// end unsub handler
 						
@@ -119,7 +138,7 @@ public class Feeds extends HttpServlet {
 	// This function checks whether the input contains a valid keyword
 	private static boolean isValidKeyword(String txtWebMsg){
 
-		return (txtWebMsg.startsWith("options") || 
+		return (txtWebMsg.startsWith("list") || 
 				txtWebMsg.startsWith("mysub") ||  
 				txtWebMsg.startsWith("sub") ||
 				txtWebMsg.startsWith("unsub") ||

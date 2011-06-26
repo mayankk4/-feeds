@@ -58,7 +58,7 @@ public class UserDatabase {
 		
 	}
 	
-	public static void setUserFav(String hashKey, String favId){
+	public static boolean setUserFav(String hashKey, String favId){
 		
 		
 		PersistenceManager pm = RAM.get().getPersistenceManager();
@@ -75,23 +75,23 @@ public class UserDatabase {
 			
 	    	String[] favArr = list.get(0).getUserFav();
 	    	
-			if(!(favArr[0].equals(favId) || favArr[1].equals(favId))){
-				favArr[1] = favArr[0];
-				favArr[0] = favId;
+			if(!(favArr[0].equals(favId) || favArr[1].equals(favId) || favArr[2].equals(favId) || favArr[3].equals(favId) || favArr[4].equals(favId) )){
+				if(favArr[0].equals("blank"))
+					favArr[0] = favId;
+				else if(favArr[1].equals("blank"))
+					favArr[1] = favId;					
+				else if(favArr[2].equals("blank"))
+					favArr[2] = favId;					
+				else if(favArr[3].equals("blank"))
+					favArr[3] = favId;					
+				else if(favArr[4].equals("blank"))
+					favArr[4] = favId;
+				else if(favArr[5].equals("blank"))
+					favArr[5] = favId;
+				else return false;
 			}
 			
-//	    	if(!(favArr[0].equals("blank")) && favArr[1].equals("blank") &&
-//					favArr[0]!=favId){
-//				favArr[1] = favId;
-//			}
-//			else if(!(favArr[1]==favId)) {
-//				favArr[0]= favId;
-//			}
-
 	    	list.get(0).setUserFav(favArr);
-//			out.println("Inside UserDatabase, Setting fav as " 
-//					+ favId + " for user " + profile.getKey() + "<br>");
-//	    	
 	    	pm.makePersistent(profile);
 	    	tx.commit();
 			
@@ -101,10 +101,11 @@ public class UserDatabase {
 		}finally {
 	        pm.close();
 		}
-
+		
+		return true;
 	}
 
-	public static void resetUserFav(String hashKey, int index){
+	public static void resetUserFav(String hashKey, String feedid){
 		
 		PersistenceManager pm = RAM.get().getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -117,7 +118,41 @@ public class UserDatabase {
 	    	UserProfile profile = list.get(0);
 			String[] favArr = list.get(0).getUserFav();
 	    	
-			favArr[index-1]= "blank";
+			for(int count = 0; count < favArr.length; count++){
+				if(favArr[count] == feedid)
+					favArr[count] = "blank";
+			}
+	
+	    	list.get(0).setUserFav(favArr);
+//			out.println("Inside UserDatabase, Setting fav as " 
+//					+ favId + " for user " + profile.getKey() + "<br>");
+//	    	
+	    	pm.makePersistent(profile);
+	    	tx.commit();
+			
+		}catch (IndexOutOfBoundsException e) {
+			tx.rollback();
+		}finally {
+	        pm.close();
+		}
+	}
+
+	public static void resetAllUserFav(String hashKey){
+		
+		PersistenceManager pm = RAM.get().getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		tx.begin();
+		
+		String query = "select from " + UserProfile.class.getName() + " where userHashKey=='"+hashKey+"'";
+		List<UserProfile> list = (List<UserProfile>) pm.newQuery(query).execute();
+		
+	    try{
+	    	UserProfile profile = list.get(0);
+			String[] favArr = list.get(0).getUserFav();
+	    	
+			for(int count = 0; count < favArr.length; count++){
+				favArr[count] = "blank";
+			}
 
 	    	list.get(0).setUserFav(favArr);
 //			out.println("Inside UserDatabase, Setting fav as " 

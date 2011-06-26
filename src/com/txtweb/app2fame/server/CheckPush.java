@@ -16,7 +16,6 @@ package com.txtweb.app2fame.server;
 	import javax.servlet.http.HttpServletResponse;
 
 import com.txtweb.app2fame.utils.Constants;
-import com.txtweb.app2fame.utils.Constants.FeedsKeyWords;
 
 public class CheckPush extends HttpServlet {
 			
@@ -25,16 +24,10 @@ public class CheckPush extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
 	throws IOException {
-		
-		for(FeedsKeyWords fkw : FeedsKeyWords.values())
-		{
-			System.out.println(fkw.ordinal() + " " + fkw.name());
-			
-		}
+				
 		PrintWriter out = resp.getWriter();
 
 	}
-	
 	
 
 }

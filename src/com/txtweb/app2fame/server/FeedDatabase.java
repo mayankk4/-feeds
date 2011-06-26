@@ -61,8 +61,10 @@ public class FeedDatabase {
 		
 	}
 	
-	public static void setUserFav(String hashKey, String favId){
+	public static boolean setUserFav(String hashKey, String favId){
 		
+		// check if favid exists in the database ......
+		// if does not exist return false 
 		
 		PersistenceManager pm = RAM.get().getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -104,7 +106,8 @@ public class FeedDatabase {
 		}finally {
 	        pm.close();
 		}
-
+		
+		return true;
 	}
 
 	public static void resetUserFav(String hashKey, int index){
