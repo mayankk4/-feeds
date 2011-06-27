@@ -61,7 +61,7 @@ public class FeedDatabase {
 		
 	}
 	
-	public static boolean setUserFav(String hashKey, String favId){
+	public static boolean setUserFav(String hashKey, int favId){
 		
 		// check if favid exists in the database ......
 		// if does not exist return false 
@@ -78,9 +78,9 @@ public class FeedDatabase {
 			
 	    	UserProfile profile = list.get(0);
 			
-	    	String[] favArr = list.get(0).getUserFav();
+	    	int[] favArr = list.get(0).getUserFav();
 	    	
-			if(!(favArr[0].equals(favId) || favArr[1].equals(favId))){
+			if(!(favArr[0] == (favId) || favArr[1] == (favId))){
 				favArr[1] = favArr[0];
 				favArr[0] = favId;
 			}
@@ -121,9 +121,9 @@ public class FeedDatabase {
 		
 	    try{
 	    	UserProfile profile = list.get(0);
-			String[] favArr = list.get(0).getUserFav();
+			int[] favArr = list.get(0).getUserFav();
 	    	
-			favArr[index-1]= "blank";
+			favArr[index-1]= (-1);
 
 	    	list.get(0).setUserFav(favArr);
 //			out.println("Inside UserDatabase, Setting fav as " 

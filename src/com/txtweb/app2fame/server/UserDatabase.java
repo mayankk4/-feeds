@@ -60,7 +60,7 @@ public class UserDatabase {
 		
 	}
 	
-	public static boolean setUserFav(String hashKey, String favId){
+	public static int setUserFav(String hashKey, int favId){
 		
 		
 		PersistenceManager pm = RAM.get().getPersistenceManager();
@@ -75,22 +75,24 @@ public class UserDatabase {
 			
 	    	UserProfile profile = list.get(0);
 			
-	    	String[] favArr = list.get(0).getUserFav();
+	    	int[] favArr = list.get(0).getUserFav();
 	    	
-			if(!(favArr[0].equals(favId) || favArr[1].equals(favId) || favArr[2].equals(favId) || favArr[3].equals(favId) || favArr[4].equals(favId) )){
-				if(favArr[0].equals("blank"))
+			if(!(favArr[0]==(favId) || favArr[1]==(favId) || favArr[2]==(favId) || favArr[3]==(favId) || favArr[4]==(favId) || favId<=0 || favId > CheckPush.feedList.size() )){
+				if(favArr[0] == (-1))
 					favArr[0] = favId;
-				else if(favArr[1].equals("blank"))
+				else if(favArr[1] == (-1))
 					favArr[1] = favId;					
-				else if(favArr[2].equals("blank"))
+				else if(favArr[2] == (-1))
 					favArr[2] = favId;					
-				else if(favArr[3].equals("blank"))
+				else if(favArr[3] == (-1))
 					favArr[3] = favId;					
-				else if(favArr[4].equals("blank"))
+				else if(favArr[4] == (-1))
 					favArr[4] = favId;
-				else if(favArr[5].equals("blank"))
+				else if(favArr[5] == (-1))
 					favArr[5] = favId;
-				else return false;
+				else return 0; // array is full
+			} else{
+				return -1; // incorrect id
 			}
 			
 	    	list.get(0).setUserFav(favArr);
@@ -104,10 +106,10 @@ public class UserDatabase {
 	        pm.close();
 		}
 		
-		return true;
+		return 1; // added subscription
 	}
 
-	public static boolean resetUserFav(String hashKey, String feedid) throws UnsupportedEncodingException{
+	public static boolean resetUserFav(String hashKey, int feedid) throws UnsupportedEncodingException{
 		
 		PersistenceManager pm = RAM.get().getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -120,12 +122,12 @@ public class UserDatabase {
 		
 	    try{
 	    	UserProfile profile = list.get(0);
-			String[] favArr = list.get(0).getUserFav();
+			int[] favArr = list.get(0).getUserFav();
 	    	
 			for(int count = 0; count < favArr.length; count++){
 //				favArr[count] = favArr[count].getBytes("utf-8").toString();
-				if( favArr[count].equals(feedid) ){
-					favArr[count] = "blank";
+				if( favArr[count]==(feedid) ){
+					favArr[count] = -1;
 					exists = true;
 				}
 			}
@@ -153,14 +155,14 @@ public class UserDatabase {
 		List<UserProfile> list = (List<UserProfile>) pm.newQuery(query).execute();
 		
 	    	UserProfile profile = list.get(0);
-			String[] favArr = list.get(0).getUserFav();
+			int[] favArr = list.get(0).getUserFav();
 			
 			//public static List<Match> scoreDetailCache = null;
 	    	
-			List<String> userFav = new ArrayList<String>();
+			List<Integer> userFav = new ArrayList<Integer>();
 
 			for(int count = 0; count < favArr.length; count++){
-				if(!(favArr[count].equals("blank"))){
+				if(!(favArr[count] == (-1))){
 					userFav.add(favArr[count]);
 				}
 			}
@@ -181,10 +183,10 @@ public class UserDatabase {
 		
 	    try{
 	    	UserProfile profile = list.get(0);
-			String[] favArr = list.get(0).getUserFav();
+			int[] favArr = list.get(0).getUserFav();
 	    	
 			for(int count = 0; count < favArr.length; count++){
-				favArr[count] = "blank";
+				favArr[count] = (-1);
 			}
 
 	    	list.get(0).setUserFav(favArr);

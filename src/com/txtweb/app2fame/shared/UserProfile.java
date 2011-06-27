@@ -23,13 +23,13 @@ public class UserProfile {
 	private String userHashKey; //key
 	
 	@Persistent
-	private String[] userFav= new String[5]; // id of feeds, blank if not set; 5 feed subscriptions at max
+	private int[] userFav= new int[5]; // id of feeds, blank if not set; 5 feed subscriptions at max
 	
 	// Constructor
 	public UserProfile(String userHashKey){
 		this.userHashKey = userHashKey;
 		for(int count =0; count<userFav.length; count++){
-			 userFav[count]="blank";
+			 userFav[count]= -1;
 		}
 	}
 	
@@ -49,11 +49,11 @@ public class UserProfile {
 		this.userHashKey = userHashKey;
 	}
 	
-	public String[] getUserFav(){
+	public int[] getUserFav(){
 		return userFav;
 	}
 	
-	public void setUserFav(String[] fav){
+	public void setUserFav(int[] fav){
 		this.userFav = fav;
 	}
 	
@@ -64,7 +64,7 @@ public class UserProfile {
 //	}
 	
 	public boolean isFavSet(){
-		return (!(userFav[0].equals("blank") && userFav[1].equals("blank"))
+		return (!(userFav[0] == (-1) && userFav[1] == (-1) && userFav[2] == (-1) && userFav[3] == (-1) && userFav[4] == (-1))
 				? true 
 				: false);
 	}
