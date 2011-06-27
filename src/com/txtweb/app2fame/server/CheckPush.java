@@ -133,17 +133,26 @@ public class CheckPush extends HttpServlet {
 	{
 		
 		String publisherKey =  "3C3329D3-D7AF-443D-8FE9-4027E12F8E25";
-		String appkey = "0e5e27f3-9cc5-4c60-a420-febe0ff4149f";		
-		
+		String appkey = "0e5e27f3-9cc5-4c60-a420-febe0ff4149f";
+		int index = 0;
 		String message = "";
-		// message = top 2 feeds
-		
+		message += feedList.get((int)(feedId-1)).getFeedName()+"<br><br>";
+		while(numberUpdates > 0)
+		{
+			message += feedList.get((int)(feedId-1)).getFeedBuffer()[index++]+"<br><br>";
+			numberUpdates--;
+		}
+		System.out.println("bf4 pghtml: " + message);
+		message = 	String.format(pageHtml, message);
+		System.out.println("after pghtml: " + message);
 		// iterate through all the users
 		// if user has feedid in his fav array then ..
 		
-		UserProfile user = null; // remove this
-		String encryptedMobile = user.getUserHashKey();
-		
+		String encryptedMobile = "634555a6-e30a-467d-bb07-17fd33b01990";
+// http://developer.txtweb.com/txtwebpush?txtweb-mobile=80a9f721-8a4b-4701-97f2-47d5186028d6&txtweb-message=%3Chtml%3E%3Chead%3E%3Cmeta+name=%22txtweb-appkey%22+content=+%220eb8c0f3-c065-4aef-8acd-192756f5b4bd%22%3E%3C/head%3E%3Cbody%3EHi%3C/body%3E%3C/html%3E&txtweb-appkey=0eb8c0f3-c065-4aef-8acd-192756f5b4bd&txtweb-pubkey=3C3329D3-D7AF-443D-8FE9-4027E12F8E25
+// http://developer.txtweb.com/txtwebpush?txtweb-mobile=80a9f721-8a4b-4701-97f2-47d5186028d6&txtweb-message=%3Chtml%3E%3Chead%3E%3Cmeta+name=%22txtweb-appkey%22+content=+%220eb8c0f3-c065-4aef-8acd-192756f5b4bd%22%3E%3C/head%3E%3Cbody%3EHi%3C/body%3E%3C/html%3E&txtweb-appkey=0eb8c0f3-c065-4aef-8acd-192756f5b4bd&txtweb-pubkey=3C3329D3-D7AF-443D-8FE9-4027E12F8E25
+// http://developer.txtweb.com/txtwebpush?txtweb-mobile=634555a6-e30a-467d-bb07-17fd33b01990&txtweb-message=<html><head><meta+name%3D"txtweb-appkey"+content%3D+"0eb8c0f3-c065-4aef-8acd-192756f5b4bd"><%2Fhead><body>HiDudeWhereTheFuckAreYou<%2Fbody><%2Fhtml>&txtweb-appkey=0eb8c0f3-c065-4aef-8acd-192756f5b4bd&txtweb-pubkey=3C3329D3-D7AF-443D-8FE9-4027E12F8E25
+	
 		String urlStr =	"http://developer.txtweb.com/txtwebpush?txtweb-mobile="
 			+URLEncoder.encode(encryptedMobile,"utf-8")+
 			"&txtweb-message="
@@ -151,7 +160,7 @@ public class CheckPush extends HttpServlet {
 			+"&txtweb-appkey="
 			+URLEncoder.encode(appkey,"utf-8")
 			+"&txtweb-pubkey="
-			+URLEncoder.encode(publisherKey,"utf-8");
+			+URLEncoder.encode(publisherKey,"utf-8");	
 		
 		URL url = new URL(urlStr);
 		URLConnection conn = url.openConnection();
