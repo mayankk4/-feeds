@@ -84,12 +84,10 @@ public class Feeds extends HttpServlet {
 				String output = "";
 	
 				for (int feedId : userFav) {
-					// XXX
 					String feedname = CheckPush.feedList.get(feedId - 1)
 							.getFeedName();
 					String feedContent = CheckPush.feedList.get(feedId - 1)
 							.getFeedBuffer()[0];
-					// feedname = ??
 					output = output + " " + feedId + " " + feedname + " : "
 							+ feedContent + "<br><br>";
 				}
@@ -176,6 +174,7 @@ public class Feeds extends HttpServlet {
 
 		if (txtWebMsg.startsWith("sub")) {
 
+		 if(txtWebMsg.equals("sub")){
 			int matchId = Integer.parseInt(txtWebMsg.substring(3));
 			int isValid = 0;
 
@@ -199,6 +198,11 @@ public class Feeds extends HttpServlet {
 						));
 				
 			}
+		} else {
+			out.println(String.format(pageHtml,
+					"You did not enter a subscription id. Enter @feeds SUB [id] to subscribe. SMS @feeds LIST for a list of available subscriptions."));				
+		}
+
 
 		} // end sub handler
 

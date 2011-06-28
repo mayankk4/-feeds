@@ -39,7 +39,7 @@ public class CheckPush extends HttpServlet {
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub ...
 		super.init(config);
 		Constants.createUrlMap();
 		
@@ -112,6 +112,8 @@ public class CheckPush extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 
+		PrintWriter out = resp.getWriter();
+
 		try {
 			getNewFeeds();
 		} catch (IllegalArgumentException e) {
@@ -121,10 +123,11 @@ public class CheckPush extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		out.println(String.format(pageHtml, "Success"));
 	}
 
-	public void pushFeed(long feedId, int numberUpdates) throws IOException
+	public void pushFeed(long feedId, int numberUpdates) throws IOException, java.lang.NullPointerException
 	{
 		
 
@@ -173,6 +176,8 @@ public class CheckPush extends HttpServlet {
 	    		}
 	    	}
 	    }
+        query.closeAll();
+        pm.close();	    
 	}
 
 	public static void main(String[] args) throws ServletException, IllegalArgumentException, IOException, FeedException
