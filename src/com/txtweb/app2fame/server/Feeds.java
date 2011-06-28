@@ -174,7 +174,7 @@ public class Feeds extends HttpServlet {
 
 		if (txtWebMsg.startsWith("sub")) {
 
-		 if(txtWebMsg.equals("sub")){
+		 if(!(txtWebMsg.equals("sub"))){
 			int matchId = Integer.parseInt(txtWebMsg.substring(3));
 			int isValid = 0;
 
