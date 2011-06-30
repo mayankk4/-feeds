@@ -98,9 +98,11 @@ public class CheckPush extends HttpServlet {
 				hammingDist = updateFeedBuffer(feed, feedBuffer, 5);
 
 			} finally {
-				if (reader != null);
-					//delete(feedBuffer);
+				if (reader != null)
+				{
 					reader.close();
+				}
+					
 			}
 			
 		}
@@ -145,12 +147,6 @@ public class CheckPush extends HttpServlet {
 
 		// iterate through all the users
 		// if user has feedid in his fav array then ..
-		URL urlx = new URL("http://developer.txtweb.com/txtwebpush?txtweb-mobile=80a9f721-8a4b-4701-97f2-47d5186028d6&txtweb-message=%3Chtml%3E%3Chead%3E%3Cmeta+name=%22txtweb-appkey%22+content=+%220eb8c0f3-c065-4aef-8acd-192756f5b4bd%22%3E%3C/head%3E%3Cbody%3EHi%3C/body%3E%3C/html%3E&txtweb-appkey=0eb8c0f3-c065-4aef-8acd-192756f5b4bd&txtweb-pubkey=3C3329D3-D7AF-443D-8FE9-4027E12F8E25");
-		URLConnection connx = urlx.openConnection();
-		// Get the response
-		BufferedReader rdx = new BufferedReader(new InputStreamReader(connx.getInputStream()));
-
-
 		PersistenceManager pm = RAM.get().getPersistenceManager();
 		Query query = pm.newQuery(UserProfile.class);	    
 	    

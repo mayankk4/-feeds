@@ -78,7 +78,7 @@ public class Feeds extends HttpServlet {
 			userFav = UserDatabase.showUserFav(user.getUserHashKey());
 			
 			if(userFav.size() == 0){
-				out.println(String.format(pageHtml, "You have not subscribed to any feeds. SMS @feeds LIST for a list of all available feed subscriptions. SMS @feeds SUB <ID> to subscribe to a feed. SMS @feeds HELP for more help.<br>"));
+				out.println(String.format(pageHtml, "You have not subscribed to any feeds.<br><br> SMS @feeds LIST for a list of all available feed subscriptions.<br><br>SMS @feeds SUB [ID] to subscribe to a feed.<br><br> SMS @feeds HELP for more help.<br>"));
 					
 			}else {
 				String output = "";
@@ -88,14 +88,14 @@ public class Feeds extends HttpServlet {
 							.getFeedName();
 					String feedContent = CheckPush.feedList.get(feedId - 1)
 							.getFeedBuffer()[0];
-					output = output + " " + feedId + " " + feedname + " : "
+					output = output + feedId + " - " + feedname + " : "
 							+ feedContent + "<br><br>";
 				}
 	
 				// XXX
 	
 				// feed name : latest feed
-				out.println(String.format(pageHtml, "Latest Feeds :<br>" + output));
+				out.println(String.format(pageHtml, "Latest Feeds :<br><br>" + output));
 			}
 			// IF message is @feeds <some_keyword>
 		} else if (isValidKeyword(txtWebMsg)) { // To check if the input string
@@ -112,7 +112,7 @@ public class Feeds extends HttpServlet {
 				Feed feed = CheckPush.feedList.get(feedId-1);
 				for(int index = 0;index < feed.getFeedBuffer().length; index++)
 				{
-					output += feed.getFeedBuffer()[index] + "<br>";
+					output += feed.getFeedBuffer()[index] + "<br><br>";
 				}
 				out.println(String.format(pageHtml, "Latest 5 feeds for " + feed.getFeedName() + " :<br><br>" + output
 				));
@@ -137,11 +137,11 @@ public class Feeds extends HttpServlet {
 			String output = "Available subsctiptions are :<br>";
 			for (Feed feed : CheckPush.feedList) {
 				output = output + " " + feed.getKey() + " : "
-						+ feed.getFeedName() + "<br>";
+						+ feed.getFeedName() + "<br><br>";
 			}
 
 			out.println(String.format(pageHtml, output
-					+ "SMS @feeds <ID> to view last 5 feeds. @feeds SUB <id> to subscribe to instant feeds."));
+					+ "SMS @feeds [ID] to view last 5 feeds. <br><br> SMS @feeds SUB [ID] to subscribe to instant feeds."));
 
 		} // end options handler
 
@@ -158,7 +158,7 @@ public class Feeds extends HttpServlet {
 				String feedname = CheckPush.feedList.get(feedId - 1)
 						.getFeedName();
 				// feedname = ??
-				output = output + " " + feedId + " : " + feedname + "<br>";
+				output = output + " " + feedId + " : " + feedname + "<br><br>";
 			}
 
 			if (output == "") {
@@ -167,7 +167,7 @@ public class Feeds extends HttpServlet {
 								+ "SMS @feeds LIST to view list of all feeds."));
 			} else {
 				out.println(String.format(pageHtml,
-						"Your subscriptions are:<br>" + output));
+						"Your subscriptions are:<br><br>" + output));
 			}
 
 		} // end mysub handler
@@ -200,7 +200,7 @@ public class Feeds extends HttpServlet {
 			}
 		} else {
 			out.println(String.format(pageHtml,
-					"You did not enter a subscription id. Enter @feeds SUB [id] to subscribe. SMS @feeds LIST for a list of available subscriptions."));				
+					"You did not enter a subscription id.<br><br> Enter @feeds SUB [id] to subscribe.<br><br>SMS @feeds LIST for a list of available subscriptions."));				
 		}
 
 
