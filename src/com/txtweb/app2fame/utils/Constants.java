@@ -34,15 +34,46 @@ public class Constants {
     
     public static void createUrlMap()
     {
-    	urlMap.put("Google News India", "http://news.google.com/news?cf=all&ned=in&hl=en&output=rss");
-    	urlMap.put("Mashable", "http://feeds.mashable.com/Mashable?format=xml");
-    	urlMap.put("ars technica", "http://feeds.arstechnica.com/arstechnica/index?format=xml");
-    	urlMap.put("SMASHING NETWORK", "http://rss1.smashingmagazine.com/feed/?f=smashing-network");
-    	urlMap.put("Tech Crunch", "http://feeds.feedburner.com/TechCrunch");
+    	// National News 
+    	urlMap.put("Google News India", "http://news.google.com/news?cf=all&ned=in&hl=en&topic=n&output=rss");
     	urlMap.put("Times Of India", "http://dynamic.feedsportal.com/pf/555218/http://toi.timesofindia.indiatimes.com/rssfeedstopstories.cms");
+    	
+    	// International News
+    	urlMap.put("CNN", "http://rss.cnn.com/rss/cnn_topstories.rss");
+    	urlMap.put("BBC", "http://feeds.bbci.co.uk/news/rss.xml");
+    	
+    	// Stock/Finance
+    	urlMap.put("World Finance", "http://news.google.com/news?pz=1&cf=all&ned=in&hl=en&topic=b&output=rss");
+    	urlMap.put("Economy", "http://www.moneycontrol.com/rss/economy.xml");
+
+    	// Sports
     	urlMap.put("CRICINFO", "http://www.espncricinfo.com/rss/content/story/feeds/0.xml");
     	urlMap.put("ESPNSTAR", "http://www.espnstar.com/headlines-rss/");
-    	urlMap.put("CNN", "http://rss.cnn.com/rss/cnn_topstories.rss");
+
+    	// Hollywood
+    	urlMap.put("Hollywood News", "http://feeds.feedburner.com/thr/boxoffice");
+    	urlMap.put("Hollywood Releases", "http://feeds.hollywood.com/hollywoodcom_new_movies_this_week");
+    	urlMap.put("Hollywood Gossip", "http://www.hollywoodgo.com/celebrity-gossip/feed/");
+
+    	// Bollywood
+    	urlMap.put("Bollywood News", "http://www.indiaglitz.com/channels/hindi/rss/news-rss.xml");
+    	urlMap.put("Bollywood Releases", "http://www.bollywoodpandit.in/feed");
+    	urlMap.put("Bollywood Gossip", "http://news.indya.com/Data/newsfeed.xml");
+    	
+    	// Jobs
+    	urlMap.put("Jobs For ITES/BPO/KPO, Customer Service, Ops", "http://jobsearch.naukri.com/mynaukri/mn_newsmartsearch.php?xz=1_0_15&xo=2727&xl=rss&rss=r&type=all&qf=8");
+    	urlMap.put("Jobs For Banking, Insurance", "http://jobsearch.naukri.com/mynaukri/mn_newsmartsearch.php?xz=1_0_15&xo=2727&xl=rss&rss=r&type=all&qf=6");
+
+    	// Music
+    	urlMap.put("International Music Releases", "http://rss1.smashingmagazine.com/feed/?f=smashing-network");
+    	urlMap.put("Indian Music Releases SongsPK", "http://rss1.smashingmagazine.com/feed/?f=smashing-network");
+
+    	// Technical
+    	urlMap.put("Smashing Network", "http://rss1.smashingmagazine.com/feed/?f=smashing-network");
+    	urlMap.put("Mashable", "http://feeds.mashable.com/Mashable?format=xml");
+    	urlMap.put("Ars Technica", "http://feeds.arstechnica.com/arstechnica/index?format=xml");
+       	urlMap.put("Tech Crunch", "http://feeds.feedburner.com/TechCrunch");
+       	
     }
     
 }

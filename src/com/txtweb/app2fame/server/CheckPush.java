@@ -98,15 +98,12 @@ public class CheckPush extends HttpServlet {
 				hammingDist = updateFeedBuffer(feed, feedBuffer, 5);
 
 			} finally {
-				if (reader != null)
-				{
+				if (reader != null){
 					reader.close();
 				}
-					
 			}
-			
 		}
-		
+
 		//feed.setFeedBuffer(feedBuffer);
 	}
 
@@ -128,7 +125,7 @@ public class CheckPush extends HttpServlet {
 		
 		out.println(String.format(pageHtml, "Success"));
 	}
-// test
+
 	public void pushFeed(long feedId, int numberUpdates) throws IOException, java.lang.NullPointerException
 	{
 		
@@ -143,6 +140,7 @@ public class CheckPush extends HttpServlet {
 			message += feedList.get((int)(feedId-1)).getFeedBuffer()[index++]+"<br><br>";
 			numberUpdates--;
 		}
+		message = message + "<br><br>SMS @feeds unsub " + feedId + " to Unsubscribe.<br><br>";
 		message = 	String.format(pageHtml, message);
 
 		// iterate through all the users
