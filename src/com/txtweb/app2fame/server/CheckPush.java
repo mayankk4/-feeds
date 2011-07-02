@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -52,26 +55,34 @@ public class CheckPush extends HttpServlet {
 
 	public int updateFeedBuffer(Feed feed, String[] buffer, int size) throws IOException
 	{
+		int index, newElemSize;
+		newElemSize = size;
+		@SuppressWarnings("unchecked")
+		List<String> newElems = (List<String>) CollectionUtils.subtract(Arrays.asList(buffer), Arrays.asList(feed.getFeedBuffer()));
+		if(newElems.size() < newElemSize)
+			newElemSize = newElems.size(); 
+		CollectionUtils.reverseArray(feed.getFeedBuffer());
 		
-		String latestFeed = feed.getFeedBuffer()[0];
-		int shiftIndex;
-		int index;
-		for(shiftIndex = 0; shiftIndex < size; shiftIndex++){
-			if(buffer[shiftIndex].equalsIgnoreCase(latestFeed))
+		for(index = 0; index < newElemSize; index++)
+		{
+			feed.getFeedBuffer()[index] = newElems.get(index);
+		}
+		int count = 1;
+		for(index = newElemSize; index < size; index++)
+		{
+			if(count > (size-newElemSize)/2)
 				break;
+			String temp = feed.getFeedBuffer()[index];
+			feed.getFeedBuffer()[index] = feed.getFeedBuffer()[size-count];
+			feed.getFeedBuffer()[size-count] = temp;
+			count++;
 		}
-		
-		for(index = 0; index < size; index++)
+		if(size > 0)
 		{
-			feed.getFeedBuffer()[index] = buffer[index];
-		}
-		
-		if(shiftIndex > 0)
-		{
-			pushFeed(feed.getKey(), shiftIndex);
+			pushFeed(feed.getKey(), newElemSize);
 		}
 
-		return shiftIndex;
+		return size;
 	}
 	
 	public void getNewFeeds() throws IOException, IllegalArgumentException,
@@ -97,7 +108,12 @@ public class CheckPush extends HttpServlet {
 				}
 				hammingDist = updateFeedBuffer(feed, feedBuffer, 5);
 
-			} finally {
+			}
+			catch(java.net.SocketTimeoutException e)
+			{
+				//do nothing;
+			}
+			finally {
 				if (reader != null){
 					reader.close();
 				}

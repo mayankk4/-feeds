@@ -1,6 +1,7 @@
 package com.txtweb.app2fame.utils;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /** Class Constants
@@ -30,7 +31,7 @@ public class Constants {
     
     public static final String COMING_SOON = "This feature will be available soon.<br>";
     
-    public static Map<String, String> urlMap = new HashMap<String, String>();
+    public static LinkedHashMap<String, String> urlMap = new LinkedHashMap<String, String>();
     
     public static void createUrlMap()
     {
