@@ -34,6 +34,7 @@ import com.txtweb.app2fame.utils.Constants;
 // http://developer.txtweb.com/txtwebpush?txtweb-mobile=80a9f721-8a4b-4701-97f2-47d5186028d6&txtweb-message=%3Chtml%3E%3Chead%3E%3Cmeta+name=%22txtweb-appkey%22+content=+%220eb8c0f3-c065-4aef-8acd-192756f5b4bd%22%3E%3C/head%3E%3Cbody%3EHi%3C/body%3E%3C/html%3E&txtweb-appkey=0eb8c0f3-c065-4aef-8acd-192756f5b4bd&txtweb-pubkey=3C3329D3-D7AF-443D-8FE9-4027E12F8E25
 // http://developer.txtweb.com/txtwebpush?txtweb-mobile=634555a6-e30a-467d-bb07-17fd33b01990&txtweb-message=<html><head><meta+name%3D"txtweb-appkey"+content%3D+"0eb8c0f3-c065-4aef-8acd-192756f5b4bd"><%2Fhead><body>HiDudeWhereTheFuckAreYou<%2Fbody><%2Fhtml>&txtweb-appkey=0eb8c0f3-c065-4aef-8acd-192756f5b4bd&txtweb-pubkey=3C3329D3-D7AF-443D-8FE9-4027E12F8E25
 
+// test
 
 public class CheckPush extends HttpServlet {
 
@@ -125,7 +126,7 @@ public class CheckPush extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
+			throws IOException, java.net.SocketTimeoutException {
 
 		PrintWriter out = resp.getWriter();
 
@@ -144,8 +145,6 @@ public class CheckPush extends HttpServlet {
 
 	public void pushFeed(long feedId, int numberUpdates) throws IOException, java.lang.NullPointerException
 	{
-		
-
 		String publisherKey =  "3C3329D3-D7AF-443D-8FE9-4027E12F8E25";
 		String appkey = "0e5e27f3-9cc5-4c60-a420-febe0ff4149f";
 		int index = 0;

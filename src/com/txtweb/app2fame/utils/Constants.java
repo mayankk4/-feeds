@@ -1,7 +1,6 @@
 package com.txtweb.app2fame.utils;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /** Class Constants
@@ -31,7 +30,7 @@ public class Constants {
     
     public static final String COMING_SOON = "This feature will be available soon.<br>";
     
-    public static LinkedHashMap<String, String> urlMap = new LinkedHashMap<String, String>();
+    public static Map<String, String> urlMap = new HashMap<String, String>();
     
     public static void createUrlMap()
     {
@@ -51,15 +50,14 @@ public class Constants {
     	urlMap.put("CRICINFO", "http://www.espncricinfo.com/rss/content/story/feeds/0.xml");
     	urlMap.put("ESPNSTAR", "http://www.espnstar.com/headlines-rss/");
 
-    	// Hollywood
+    	// Hollywood test
     	urlMap.put("Hollywood News", "http://feeds.feedburner.com/thr/boxoffice");
     	urlMap.put("Hollywood Releases", "http://feeds.hollywood.com/hollywoodcom_new_movies_this_week");
     	urlMap.put("Hollywood Gossip", "http://www.hollywoodgo.com/celebrity-gossip/feed/");
 
     	// Bollywood
     	urlMap.put("Bollywood News", "http://www.indiaglitz.com/channels/hindi/rss/news-rss.xml");
-    	urlMap.put("Bollywood Releases", "http://www.bollywoodpandit.in/feed");
-    	urlMap.put("Bollywood Gossip", "http://news.indya.com/Data/newsfeed.xml");
+    	urlMap.put("Bollywood Gossip", "http://www.santabanta.com/rss/cinema.asp?cat=Titbits");
     	
     	// Jobs
     	urlMap.put("Jobs For ITES/BPO/KPO, Customer Service, Ops", "http://jobsearch.naukri.com/mynaukri/mn_newsmartsearch.php?xz=1_0_15&xo=2727&xl=rss&rss=r&type=all&qf=8");
