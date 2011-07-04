@@ -105,26 +105,37 @@ public class Feeds extends HttpServlet {
 
 			// IF message is @feeds <ID>
 		} else {
-
-			int feedId = Integer.parseInt(txtWebMsg);
-			String output = ""; 
-			if (feedId > 0 && feedId <= CheckPush.feedList.size()) {
-				Feed feed = CheckPush.feedList.get(feedId-1);
-				for(int index = 0;index < feed.getFeedBuffer().length; index++)
-				{
-					output += feed.getFeedBuffer()[index] + "<br><br>";
+			
+			try{
+				int feedId = Integer.parseInt(txtWebMsg);
+				String output = ""; 
+				if (feedId > 0 && feedId <= CheckPush.feedList.size()) {
+					Feed feed = CheckPush.feedList.get(feedId-1);
+					for(int index = 0;index < feed.getFeedBuffer().length; index++)
+					{
+						output += feed.getFeedBuffer()[index] + "<br><br>";
+					}
+					out.println(String.format(pageHtml, "Latest 5 feeds for " + feed.getFeedName() + " :<br><br>" + output
+					));
 				}
-				out.println(String.format(pageHtml, "Latest 5 feeds for " + feed.getFeedName() + " :<br><br>" + output
-				));
-				
-			} else {
-				LOGGER.info("Invalid Keyword.");
-				out.println(String.format(pageHtml,
-						"Please enter a valid keyword!"));
+				else {
+					LOGGER.info("Invalid Keyword.");
+					out.println(String.format(pageHtml,
+							"Please enter a valid keyword!"));
 			}
+			}
+				catch(NumberFormatException e)
+				{
+					LOGGER.info("Invalid Keyword.");
+					out.println(String.format(pageHtml,
+							"Please enter a valid keyword!"));
+				}
+				
+			} 
+			
 		}// end else
 
-	}// end doGet()
+	// end doGet()
 
 	// change int to UserProfile
 	private static void keywordHandler(String txtWebMsg, UserProfile user,

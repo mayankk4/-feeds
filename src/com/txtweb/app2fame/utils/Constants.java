@@ -1,6 +1,7 @@
 package com.txtweb.app2fame.utils;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /** Class Constants
@@ -30,7 +31,7 @@ public class Constants {
     
     public static final String COMING_SOON = "This feature will be available soon.<br>";
     
-    public static Map<String, String> urlMap = new HashMap<String, String>();
+    public static LinkedHashMap<String, String> urlMap = new LinkedHashMap<String, String>();
     
     public static void createUrlMap()
     {
@@ -58,20 +59,20 @@ public class Constants {
     	// Bollywood
     	urlMap.put("Bollywood News", "http://www.indiaglitz.com/channels/hindi/rss/news-rss.xml");
     	urlMap.put("Bollywood Gossip", "http://www.santabanta.com/rss/cinema.asp?cat=Titbits");
-    	
-    	// Jobs
-    	urlMap.put("Jobs For ITES/BPO/KPO, Customer Service, Ops", "http://jobsearch.naukri.com/mynaukri/mn_newsmartsearch.php?xz=1_0_15&xo=2727&xl=rss&rss=r&type=all&qf=8");
-    	urlMap.put("Jobs For Banking, Insurance", "http://jobsearch.naukri.com/mynaukri/mn_newsmartsearch.php?xz=1_0_15&xo=2727&xl=rss&rss=r&type=all&qf=6");
 
     	// Music
-    	urlMap.put("International Music Releases", "http://rss1.smashingmagazine.com/feed/?f=smashing-network");
-    	urlMap.put("Indian Music Releases SongsPK", "http://rss1.smashingmagazine.com/feed/?f=smashing-network");
+    	urlMap.put("International Music Releases", "http://feeds.feedburner.com/thr/music");
+    	urlMap.put("Indian Music Releases", "http://rss.songs.pk/");
 
     	// Technical
     	urlMap.put("Smashing Network", "http://rss1.smashingmagazine.com/feed/?f=smashing-network");
     	urlMap.put("Mashable", "http://feeds.mashable.com/Mashable?format=xml");
     	urlMap.put("Ars Technica", "http://feeds.arstechnica.com/arstechnica/index?format=xml");
        	urlMap.put("Tech Crunch", "http://feeds.feedburner.com/TechCrunch");
+       	
+     // Jobs
+    	urlMap.put("Jobs For ITES/BPO/KPO, Customer Service, Ops", "http://jobsearch.naukri.com/mynaukri/mn_newsmartsearch.php?xz=1_0_15&xo=2727&xl=rss&rss=r&type=all&qf=8");
+    	urlMap.put("Jobs For Banking, Insurance", "http://jobsearch.naukri.com/mynaukri/mn_newsmartsearch.php?xz=1_0_15&xo=2727&xl=rss&rss=r&type=all&qf=6");
        	
     }
     

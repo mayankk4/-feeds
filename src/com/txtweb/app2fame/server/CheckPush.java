@@ -9,8 +9,11 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -19,8 +22,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.CollectionUtils;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -58,15 +59,29 @@ public class CheckPush extends HttpServlet {
 	{
 		int index, newElemSize;
 		newElemSize = size;
-		@SuppressWarnings("unchecked")
-		List<String> newElems = (List<String>) CollectionUtils.subtract(Arrays.asList(buffer), Arrays.asList(feed.getFeedBuffer()));
+		
+		//@SuppressWarnings("unchecked")
+		//List<String> newElems = (List<String>) CollectionUtils.subtract(Arrays.asList(buffer), Arrays.asList(feed.getFeedBuffer()));
+		Set<String> set = new HashSet<String>(Arrays.asList(buffer));
+		set.removeAll(Arrays.asList(feed.getFeedBuffer()));
+		buffer = set.toArray(new String[1]);
+		if(buffer.length < newElemSize)
+			newElemSize = buffer.length;
+		/*
 		if(newElems.size() < newElemSize)
-			newElemSize = newElems.size(); 
-		CollectionUtils.reverseArray(feed.getFeedBuffer());
+			newElemSize = newElems.size();
+			*/ 
+		List<String> tempList = Arrays.asList(feed.getFeedBuffer());
+		Collections.reverse(tempList);
+		for(index = 0; index < tempList.size(); index++)
+		{
+			feed.getFeedBuffer()[index] = tempList.get(index);
+		}
+		//CollectionUtils.reverseArray(feed.getFeedBuffer());
 		
 		for(index = 0; index < newElemSize; index++)
 		{
-			feed.getFeedBuffer()[index] = newElems.get(index);
+			feed.getFeedBuffer()[index] = buffer[index];
 		}
 		int count = 1;
 		for(index = newElemSize; index < size; index++)
@@ -78,7 +93,7 @@ public class CheckPush extends HttpServlet {
 			feed.getFeedBuffer()[size-count] = temp;
 			count++;
 		}
-		if(size > 0)
+		if(newElemSize > 0)
 		{
 			pushFeed(feed.getKey(), newElemSize);
 		}
@@ -140,6 +155,7 @@ public class CheckPush extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		
 		out.println(String.format(pageHtml, "Success"));
 	}
 
@@ -152,6 +168,8 @@ public class CheckPush extends HttpServlet {
 		message += feedList.get((int)(feedId-1)).getFeedName()+"<br><br>";
 		while(numberUpdates > 0)
 		{
+			System.out.println(feedList.get((int)(feedId-1)).getFeedName());
+			System.out.println(feedList.get((int)(feedId-1)).getFeedBuffer()[index]);
 			message += feedList.get((int)(feedId-1)).getFeedBuffer()[index++]+"<br><br>";
 			numberUpdates--;
 		}
@@ -160,6 +178,7 @@ public class CheckPush extends HttpServlet {
 
 		// iterate through all the users
 		// if user has feedid in his fav array then ..
+		
 		PersistenceManager pm = RAM.get().getPersistenceManager();
 		Query query = pm.newQuery(UserProfile.class);	    
 	    
@@ -173,6 +192,9 @@ public class CheckPush extends HttpServlet {
 
 	    			String encryptedMobile = user.getUserHashKey();
 				
+
+		//String encryptedMobile = "80a9f721-8a4b-4701-97f2-47d5186028d6";
+		
 					String urlStr =	"http://developer.txtweb.com/txtwebpush?txtweb-mobile="
 						+URLEncoder.encode(encryptedMobile,"utf-8")+
 						"&txtweb-message="
