@@ -10,6 +10,7 @@ import java.util.Map;
  */
 
 
+
 public class Constants {
 	public static String newline = System.getProperty("line.separator");
 		
@@ -73,6 +74,7 @@ public class Constants {
      // Jobs
     	urlMap.put("Jobs For ITES/BPO/KPO, Customer Service, Ops", "http://jobsearch.naukri.com/mynaukri/mn_newsmartsearch.php?xz=1_0_15&xo=2727&xl=rss&rss=r&type=all&qf=8");
     	urlMap.put("Jobs For Banking, Insurance", "http://jobsearch.naukri.com/mynaukri/mn_newsmartsearch.php?xz=1_0_15&xo=2727&xl=rss&rss=r&type=all&qf=6");
+    	
        	
     }
     

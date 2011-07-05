@@ -10,8 +10,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -62,9 +62,16 @@ public class CheckPush extends HttpServlet {
 		
 		//@SuppressWarnings("unchecked")
 		//List<String> newElems = (List<String>) CollectionUtils.subtract(Arrays.asList(buffer), Arrays.asList(feed.getFeedBuffer()));
-		Set<String> set = new HashSet<String>(Arrays.asList(buffer));
+		Set<String> set = new LinkedHashSet<String>(Arrays.asList(buffer));
 		set.removeAll(Arrays.asList(feed.getFeedBuffer()));
 		buffer = set.toArray(new String[1]);
+		if(buffer == null || buffer[0] == null)
+			return 0;
+		/*
+		System.out.println("inside update buffer new elemnts");
+		for(index = 0; index < buffer.length; index++)
+		   System.out.println(buffer[index]);
+		*/
 		if(buffer.length < newElemSize)
 			newElemSize = buffer.length;
 		/*
@@ -73,12 +80,18 @@ public class CheckPush extends HttpServlet {
 			*/ 
 		List<String> tempList = Arrays.asList(feed.getFeedBuffer());
 		Collections.reverse(tempList);
+		
+		
+		//System.out.println("inside update buffer reverse buffer");
 		for(index = 0; index < tempList.size(); index++)
 		{
 			feed.getFeedBuffer()[index] = tempList.get(index);
+			//System.out.println(feed.getFeedBuffer()[index]);
 		}
 		//CollectionUtils.reverseArray(feed.getFeedBuffer());
 		
+		//for(index = 0; index < feed.getFeedBuffer().length; index++)
+		   //System.out.println(feed.getFeedBuffer()[index]);
 		for(index = 0; index < newElemSize; index++)
 		{
 			feed.getFeedBuffer()[index] = buffer[index];
@@ -93,6 +106,13 @@ public class CheckPush extends HttpServlet {
 			feed.getFeedBuffer()[size-count] = temp;
 			count++;
 		}
+		/*
+		System.out.println("pushing final data");
+		for(index = 0; index < size; index++)
+		{
+			System.out.println(feed.getFeedBuffer()[index]);
+		}
+		*/
 		if(newElemSize > 0)
 		{
 			pushFeed(feed.getKey(), newElemSize);
@@ -117,10 +137,11 @@ public class CheckPush extends HttpServlet {
 			try {
 				reader = new XmlReader(url);
 				sf = new SyndFeedInput().build(reader);
+				System.out.println("new buffer");
 				for (Iterator i = sf.getEntries().iterator(); i.hasNext() && count < 5;) {
 					entry = (SyndEntry) i.next();
 					feedBuffer[count++] =  entry.getTitle();
-					
+					//System.out.println(feedBuffer[count-1]);
 				}
 				hammingDist = updateFeedBuffer(feed, feedBuffer, 5);
 
@@ -168,8 +189,8 @@ public class CheckPush extends HttpServlet {
 		message += feedList.get((int)(feedId-1)).getFeedName()+"<br><br>";
 		while(numberUpdates > 0)
 		{
-			System.out.println(feedList.get((int)(feedId-1)).getFeedName());
-			System.out.println(feedList.get((int)(feedId-1)).getFeedBuffer()[index]);
+			//System.out.println(feedList.get((int)(feedId-1)).getFeedName());
+			//System.out.println(feedList.get((int)(feedId-1)).getFeedBuffer()[index]);
 			message += feedList.get((int)(feedId-1)).getFeedBuffer()[index++]+"<br><br>";
 			numberUpdates--;
 		}
@@ -178,6 +199,7 @@ public class CheckPush extends HttpServlet {
 
 		// iterate through all the users
 		// if user has feedid in his fav array then ..
+		
 		
 		PersistenceManager pm = RAM.get().getPersistenceManager();
 		Query query = pm.newQuery(UserProfile.class);	    
@@ -222,7 +244,17 @@ public class CheckPush extends HttpServlet {
 		ServletConfig config = null;
 		CheckPush chk = new CheckPush();
 		chk.init(config);
+		while(true){
 		chk.getNewFeeds();
-		System.out.println("bye");
+		try {
+			Thread.sleep(120000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("running again");
+		}
+		//chk.getNewFeeds();
+		//System.out.println("bye");
 	}
 }
