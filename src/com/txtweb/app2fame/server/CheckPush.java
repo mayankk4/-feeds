@@ -126,9 +126,10 @@ public class CheckPush extends HttpServlet {
 		
 		long id = 1;
 		int hammingDist;
-		String[] feedBuffer = new String[5];
+		
 		for(Feed feed : feedList)
 		{
+			String[] feedBuffer = new String[5];
 			int count = 0;
 			URL url = new URL(feed.getFeedUrl());
 			XmlReader reader = null;
