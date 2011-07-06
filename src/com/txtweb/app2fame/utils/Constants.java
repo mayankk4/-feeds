@@ -21,14 +21,14 @@ public class Constants {
     public static final String TEXT_WEB_MOB = "txtweb-mobile";
     
     public static final String HELP_MESSAGE = 
-    		"SMS @feeds : view the latest post of each subsciption<br><br>" +
-    		"SMS @feeds options : view all available subscriptions with ID.<br><br>" +
-    		"SMS @feeds mysub : view all your subscriptions.<br><br>" +
-    		"SMS @feeds [id] : view latest five feeds of the subscription.<br><br>" + 
-    		"SMS @feeds sub [id] :  to subscribe a feed.<br><br>" +
-    		"SMS @feeds unsub [id] : to unsubscribe a feed.<br><br>" +
-    		"SMS @feeds unsub all : to unsubscribe to all feeds.<br><br>" +
-    		"SMS @feeds help : view help content.<br><br>" ;
+    		"SMS @feeds : view the latest post of each subsciption<br>-<br>" +
+    		"SMS @feeds options : view all available subscriptions with ID.<br>-<br>" +
+    		"SMS @feeds mysub : view all your subscriptions.<br>-<br>" +
+    		"SMS @feeds [id] : view latest five feeds of the subscription.<br>-<br>" + 
+    		"SMS @feeds sub [id] :  to subscribe a feed.<br>-<br>" +
+    		"SMS @feeds unsub [id] : to unsubscribe a feed.<br>-<br>" +
+    		"SMS @feeds unsub all : to unsubscribe to all feeds.<br>-<br>" +
+    		"SMS @feeds help : view help content.<br>-<br>" ;
     
     public static final String COMING_SOON = "This feature will be available soon.<br>";
     

@@ -90,9 +90,9 @@ public class UserDatabase {
 					favArr[4] = favId;
 				else if(favArr[5] == (-1))
 					favArr[5] = favId;
-				else return 0; // array is full
+				else return -1; // array is full
 			} else{
-				return -1; // incorrect id
+				return 2; // id exists in subscriptions
 			}
 			
 	    	list.get(0).setUserFav(favArr);
@@ -102,6 +102,7 @@ public class UserDatabase {
 		}catch (IndexOutOfBoundsException e) {
 //			System.out.println("exception is +++++" + e.getMessage());
 			tx.rollback();
+			return 0; // incorrect id (greater than available subscriptions)
 		}finally {
 	        pm.close();
 		}
