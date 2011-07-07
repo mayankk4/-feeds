@@ -72,17 +72,19 @@ public class Feeds extends HttpServlet {
 
 		// IF message is @feeds
 		if (txtWebMsg.equals("")) {
-			
+
 			List<Integer> userFav = new ArrayList<Integer>();
 
 			userFav = UserDatabase.showUserFav(user.getUserHashKey());
-			
-			if(userFav.size() == 0){
-				out.println(String.format(pageHtml, "You have not subscribed to any feeds.<br>-<br> SMS @feeds LIST for a list of all available feed subscriptions.<br>-<br>SMS @feeds SUB [ID] to subscribe to a feed.<br>-<br> SMS @feeds HELP for more help.<br>"));
-					
-			}else {
+
+			if (userFav.size() == 0) {
+				out.println(String
+						.format(pageHtml,
+								"You have not subscribed to any feeds.<br>-<br> SMS @feeds LIST for a list of all available feed subscriptions.<br>-<br>SMS @feeds SUB [ID] to subscribe to a feed.<br>-<br> SMS @feeds HELP for more help.<br>"));
+
+			} else {
 				String output = "";
-	
+
 				for (int feedId : userFav) {
 					String feedname = CheckPush.feedList.get(feedId - 1)
 							.getFeedName();
@@ -91,9 +93,10 @@ public class Feeds extends HttpServlet {
 					output = output + feedId + " - " + feedname + " : "
 							+ feedContent + "<br>-<br>";
 				}
-		
+
 				// feed name : latest feed
-				out.println(String.format(pageHtml, "Latest Feeds :<br>-<br>" + output));
+				out.println(String.format(pageHtml, "Latest Feeds :<br>-<br>"
+						+ output));
 			}
 			// IF message is @feeds <some_keyword>
 		} else if (isValidKeyword(txtWebMsg)) { // To check if the input string
@@ -103,35 +106,31 @@ public class Feeds extends HttpServlet {
 
 			// IF message is @feeds <ID>
 		} else {
-			
-			try{
+
+			try {
 				int feedId = Integer.parseInt(txtWebMsg);
-				String output = ""; 
+				String output = "";
 				if (feedId > 0 && feedId <= CheckPush.feedList.size()) {
-					Feed feed = CheckPush.feedList.get(feedId-1);
-					for(int index = 0;index < feed.getFeedBuffer().length; index++)
-					{
+					Feed feed = CheckPush.feedList.get(feedId - 1);
+					for (int index = 0; index < feed.getFeedBuffer().length; index++) {
 						output += feed.getFeedBuffer()[index] + "<br>-<br>";
 					}
-					out.println(String.format(pageHtml, "Latest 5 feeds for " + feed.getFeedName() + " :<br>-<br>" + output
-					));
-				}
-				else {
+					out.println(String.format(pageHtml, "Latest 5 feeds for "
+							+ feed.getFeedName() + " :<br>-<br>" + output));
+				} else {
 					LOGGER.info("Invalid Keyword.");
 					out.println(String.format(pageHtml,
 							"Please enter a valid keyword!"));
 				}
-			}catch(NumberFormatException e){
-					LOGGER.info("Invalid Keyword.");
-					out.println(String.format(pageHtml,
-							"Please enter a valid keyword!"));
+			} catch (NumberFormatException e) {
+				LOGGER.info("Invalid Keyword.");
+				out.println(String.format(pageHtml,
+						"Please enter a valid keyword!"));
 			}
-	
+
 		} // end else
 
 	} // end doGet()
-
-
 
 	// change int to UserProfile
 	private static void keywordHandler(String txtWebMsg, UserProfile user,
@@ -147,8 +146,10 @@ public class Feeds extends HttpServlet {
 						+ feed.getFeedName() + "<br><br>";
 			}
 
-			out.println(String.format(pageHtml, output
-					+ "SMS @feeds [ID] to view latest 5 feeds of the subscription. <br>-<br> SMS @feeds SUB [ID] to subscribe to instant feeds."));
+			out.println(String
+					.format(pageHtml,
+							output
+									+ "SMS @feeds [ID] to view latest 5 feeds of the subscription. <br>-<br> SMS @feeds SUB [ID] to subscribe to instant feeds."));
 
 		} // end options handler
 
@@ -181,48 +182,61 @@ public class Feeds extends HttpServlet {
 
 		if (txtWebMsg.startsWith("sub")) {
 
-		 if(!(txtWebMsg.equals("sub"))){
-			
-			try{
+			if (!(txtWebMsg.equals("sub"))) {
 
-				int matchId = Integer.parseInt(txtWebMsg.substring(3));			
-				int isValid = 0;
-	
-				isValid = UserDatabase.setUserFav(user.getUserHashKey(), matchId);
-	
-				if (isValid == 1) {
-					out.println(String.format(pageHtml,
-							"You have been subscribed to the feed.<br>"
-									+ "SMS @feeds LIST to view list of all feeds."));
-				} else if(isValid == 0) {
-					out.println(String.format(pageHtml, "Incorrect Feeds ID.<br>"
-							+ "SMS @feeds LIST to view list of all feeds."
-							+ "SMS @feeds HELP to view help content."));
-				} else if(isValid == 2) {
-					out.println(String.format(pageHtml, "You are aleardy subscribed to that feed.<br>"
-							+ "SMS @feeds LIST to view list of all feeds.<br>"
-							+ "SMS @feeds HELP to view help content."));
-				} else {
-					out.println(String.format(pageHtml,
-							"You have reached the maximum limit of 5 subscription.<br>-<br>"
-							+ "SMS @feeds MYSUB to view your current subscriptions.<br>-<br>"
-							+ "SMS @feeds UNSUB [id] to unsubscribe a particular subscription.<br>-<br>"
-							+ "SMS @feeds UNSUB ALL to unsubscribe all subscriptions.<br>-<br>"
-							+ "SMS @feeds LIST to view list of all available subscriptions.<br>-<br>"
-							));
-					
+				try {
+
+					int matchId = Integer.parseInt(txtWebMsg.substring(3));
+					int isValid = 0;
+
+					isValid = UserDatabase.setUserFav(user.getUserHashKey(),
+							matchId);
+
+					if (isValid == 1) {
+						out.println(String
+								.format(pageHtml,
+										"You have been subscribed to the feed.<br>"
+												+ "SMS @feeds LIST to view list of all feeds."));
+					} else if (isValid == 0) {
+						out.println(String
+								.format(pageHtml,
+										"Incorrect Feeds ID.<br>"
+												+ "SMS @feeds LIST to view list of all feeds."
+												+ "SMS @feeds HELP to view help content."));
+					} else if (isValid == 2) {
+						out.println(String
+								.format(pageHtml,
+										"You are aleardy subscribed to that feed.<br>"
+												+ "SMS @feeds LIST to view list of all feeds.<br>"
+												+ "SMS @feeds HELP to view help content."));
+					} else if (isValid == 3) {
+						out.println(String
+								.format(pageHtml,
+										"You have reached the maximum limit of 5 subscription.<br>-<br>"
+												+ "SMS @feeds MYSUB to view your current subscriptions.<br>-<br>"
+												+ "SMS @feeds UNSUB [id] to unsubscribe a particular subscription.<br>-<br>"
+												+ "SMS @feeds UNSUB ALL to unsubscribe all subscriptions.<br>-<br>"
+												+ "SMS @feeds LIST to view list of all available subscriptions.<br>-<br>"));
+					} else {
+						out.println(String
+								.format(pageHtml,
+										"Incorrect Feeds ID.<br>"
+												+ "SMS @feeds LIST to view list of all feeds."
+												+ "SMS @feeds HELP to view help content."));
+					}
+				} catch (NumberFormatException e) {
+					out.println(String
+							.format(pageHtml,
+									"Incorrect Feeds ID.<br>"
+											+ "SMS @feeds LIST to view list of all feeds.<br>"
+											+ "SMS @feeds HELP to view help content."));
 				}
-			}catch(NumberFormatException e){
-				out.println(String.format(pageHtml, "Incorrect Feeds ID.<br>"
-						+ "SMS @feeds LIST to view list of all feeds."
-						+ "SMS @feeds HELP to view help content."));	
+
+			} else {
+				out.println(String
+						.format(pageHtml,
+								"You did not enter a subscription id.<br>-<br> Enter @feeds SUB [id] to subscribe.<br>-<br>SMS @feeds LIST for a list of available subscriptions."));
 			}
-
-		} else {
-			out.println(String.format(pageHtml,
-					"You did not enter a subscription id.<br>-<br> Enter @feeds SUB [id] to subscribe.<br>-<br>SMS @feeds LIST for a list of available subscriptions."));				
-		}
-
 
 		} // end sub handler
 
@@ -232,7 +246,7 @@ public class Feeds extends HttpServlet {
 				out.println(String.format(pageHtml,
 						"You have been unsubscribed from all feeds."));
 			} else {
-				try{
+				try {
 					int feedid = Integer.parseInt(txtWebMsg.substring(5));
 					boolean exists = UserDatabase.resetUserFav(
 							user.getUserHashKey(), feedid);
@@ -244,11 +258,11 @@ public class Feeds extends HttpServlet {
 						out.println(String.format(pageHtml, feedid
 								+ " does not exist in your subscriptions."));
 					}
-				}catch(NumberFormatException e){
-					out.println(String.format(pageHtml,
-							"Incorrect Feed Id.<br>"
-							+ "SMS @feeds MYSUB to view your current subscriptions.<br>-<br>"
-							));					
+				} catch (NumberFormatException e) {
+					out.println(String
+							.format(pageHtml,
+									"Incorrect Feed Id.<br>"
+											+ "SMS @feeds MYSUB to view your current subscriptions.<br>-<br>"));
 				}
 			}
 

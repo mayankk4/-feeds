@@ -74,10 +74,21 @@ public class UserDatabase {
 	    try{
 			
 	    	UserProfile profile = list.get(0);
-			
 	    	int[] favArr = list.get(0).getUserFav();
 	    	
-			if(!(favArr[0]==(favId) || favArr[1]==(favId) || favArr[2]==(favId) || favArr[3]==(favId) || favArr[4]==(favId) || favId<=0 || favId > CheckPush.feedList.size() )){
+	    	if((favId<=0) || (favId > CheckPush.feedList.size())){
+	    		tx.rollback();
+	    		pm.close();
+				return 0; // incorrect id (greater than available subscriptions)
+	    	}else if( (favArr[0]==(favId)) || (favArr[1]==(favId)) || (favArr[2]==(favId)) || (favArr[3]==(favId)) || (favArr[4]==(favId)) ){
+				tx.rollback();
+		        pm.close();
+				return 2; // id exists in subscriptions
+	    	}else if( (favArr[0]!= (-1)) && (favArr[1]!=(-1)) && (favArr[2]!=(-1)) && (favArr[3]!=(-1)) && (favArr[4]!=(-1)) ){
+					tx.rollback();
+			        pm.close();
+					return 3; // array is full
+	    	}else{
 				if(favArr[0] == (-1))
 					favArr[0] = favId;
 				else if(favArr[1] == (-1))
@@ -90,21 +101,19 @@ public class UserDatabase {
 					favArr[4] = favId;
 				else if(favArr[5] == (-1))
 					favArr[5] = favId;
-				else return -1; // array is full
-			} else{
-				return 2; // id exists in subscriptions
 			}
-			
+	    	
 	    	list.get(0).setUserFav(favArr);
 	    	pm.makePersistent(profile);
 	    	tx.commit();
-			
+	        pm.close();
+
 		}catch (IndexOutOfBoundsException e) {
 //			System.out.println("exception is +++++" + e.getMessage());
 			tx.rollback();
-			return 0; // incorrect id (greater than available subscriptions)
-		}finally {
 	        pm.close();
+			return 0; // incorrect id
+		}finally {
 		}
 		
 		return 1; // added subscription
