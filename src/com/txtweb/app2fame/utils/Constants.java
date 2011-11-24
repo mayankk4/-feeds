@@ -67,7 +67,7 @@ public class Constants {
 
     	// Technical
     	urlMap.put("Smashing Network", "http://rss1.smashingmagazine.com/feed/?f=smashing-network");
-    	urlMap.put("Mashable", "http://feeds.mashable.com/Mashable?format=xml");
+    	//urlMap.put("Mashable", "http://feeds.mashable.com/Mashable?format=xml");
     	urlMap.put("Ars Technica", "http://feeds.arstechnica.com/arstechnica/index?format=xml");
        	urlMap.put("Tech Crunch", "http://feeds.feedburner.com/TechCrunch");
        	

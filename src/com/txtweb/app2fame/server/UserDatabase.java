@@ -72,7 +72,6 @@ public class UserDatabase {
 		
 	    
 	    try{
-			
 	    	UserProfile profile = list.get(0);
 	    	int[] favArr = list.get(0).getUserFav();
 	    	
@@ -101,19 +100,24 @@ public class UserDatabase {
 					favArr[4] = favId;
 				else if(favArr[5] == (-1))
 					favArr[5] = favId;
+				else return 0; // array is full
+			} else{
+				return -1; // max sub reached
 			}
 	    	
 	    	list.get(0).setUserFav(favArr);
 	    	pm.makePersistent(profile);
 	    	tx.commit();
 	        pm.close();
-
 		}catch (IndexOutOfBoundsException e) {
 //			System.out.println("exception is +++++" + e.getMessage());
 			tx.rollback();
-	        pm.close();
-			return 0; // incorrect id
-		}finally {
+			pm.close();
+			return 0;
+		}catch (NumberFormatException e){
+			tx.rollback();
+			pm.close();
+			return 0;
 		}
 		
 		return 1; // added subscription

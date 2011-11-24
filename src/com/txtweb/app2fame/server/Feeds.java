@@ -26,7 +26,7 @@ import com.txtweb.app2fame.shared.UserProfile;
 import com.txtweb.app2fame.utils.Constants;
 
 public class Feeds extends HttpServlet {
-
+	// test
 	private static final Logger LOGGER = Logger
 			.getLogger(Feeds.class.getName());
 	private static String pageHtml = "<html><head><meta name=\"txtweb-appkey\" content=\"0e5e27f3-9cc5-4c60-a420-febe0ff4149f\" /><title> Page title </title></head><body>%s</body></html>";
